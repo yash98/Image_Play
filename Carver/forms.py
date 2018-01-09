@@ -1,9 +1,6 @@
 from django import forms
-from .models import Image
 
-
-class UploadForm(forms.Form):
-    class Meta:
-        model = Image
-
-    fields = ('photo',)
+class ImageUpload(forms.Form):
+    image = forms.FileField()
+    rows = forms.IntegerField()
+    cols = forms.IntegerField()
