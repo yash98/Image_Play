@@ -125,3 +125,9 @@ tests/report/
 db.sqlite3
 .idea/
 migrations/
+.vscode/
+.media/
+venv
+*.pyc
+staticfiles
+.env
