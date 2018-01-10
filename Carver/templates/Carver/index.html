@@ -9,14 +9,16 @@
         <button type="submit" name = "upload">Upload</button>
     </form>
     {% if uploaded %}
-        <p><img src="{{ uploaded_file_url }}"></p>
+        <div>
+            <img src="{{ uploaded_file_url }}">
+            <p>cols,rows:{{ reso }}</p>
+            {% if ImageReady %}
+                <a href="{{ ImageReady }}"><img src="{{ ImageReady }}"></a>
+            {% endif %}
+        </div>
         <form method="post" enctype = "multipart/form-data">
             {{ convertform.as_p }}
             {% csrf_token %}
-{#            Enter number of rows:<br>#}
-{#            <input type="number" name="Row_pixels"><br>#}
-{#            Enter number of cols:<br>#}
-{#            <input type="number" name = "Col_pixels"><br>#}
             <button type="Submit" name="convert">Convert</button>
         </form>
     {% endif %}
