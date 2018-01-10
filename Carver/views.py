@@ -34,13 +34,13 @@ def index(request):
         name = myfile.name
         subprocess.call(['rm', '-rf', "media/"+str(request.session.session_key)+"/"])
         fs = FileSystemStorage(location="media/"+str(request.session.session_key))
-        # filename = fs.save(str(request.session.session_key), myfile)
+        filename = fs.save(str(request.session.session_key), myfile)
         # uploaded_file_url = fs.url(filename)
         uploaded_file_url = "media/"+str(request.session.session_key)+"/"+str(request.session.session_key)
         request.session['uploaded'] = True
         print(str(request.session.session_key))
         return render(request, 'Carver/index.html', {'uploadform': uploadform, 'uploaded_file_url': uploaded_file_url,
-                                                     'uploaded': request.session['uploaded']})
+                                                     'convertform': convertform, 'uploaded': request.session['uploaded']})
 
     if request.session['uploaded']:
         if 'convert' in request.POST:
