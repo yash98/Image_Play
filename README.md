@@ -16,10 +16,10 @@ This is a content-aware image resizing web app where the image is reduced in siz
 
 #### Instructions:
 
---> Upload the image you want to reduce  to the desired size.
+1. Upload the image you want to reduce  to the desired size.
 
---> Enter the number of rows and columns you want the desired image should have.
+2. Enter the number of rows and columns you want the desired image should have.
 
---> Click "Submit".
+3. Click "Submit".
 
---> A preview of the image will appear and you can download the desired image by clicking on "Download" button :)
+4. A preview of the image will appear and you can download the desired image by clicking on "Download" button :)
