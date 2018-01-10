@@ -11,7 +11,7 @@
     {% if uploaded %}
         <p><img src="{{ uploaded_file_url }}"></p>
         <form method="post" enctype = "multipart/form-data">
-            {{ convertform.as_table }}
+            {{ convertform.as_p }}
             {% csrf_token %}
 {#            Enter number of rows:<br>#}
 {#            <input type="number" name="Row_pixels"><br>#}

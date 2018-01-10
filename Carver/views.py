@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect
-from django.conf  import  settings
+from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from .forms import ImageUpload, ImageConvert
 import subprocess, os
@@ -41,15 +41,18 @@ def index(request):
                                                      'convertform': convertform, 'uploaded': request.session['uploaded']})
 
     if request.session['uploaded']:
+        print('uploaded present')
         if 'convert' in request.POST:
+            print('entered convert')
             cols = request.POST.get('cols')
             rows = request.POST.get('rows')
             name = request.session['name']
             convertform = ImageConvert(request.POST)
             if convertform.is_valid():
-                subprocess.call(['java','-jar', 'SeamCarving.jar',
+                print("form is valid")
+                subprocess.call(['java','-jar', 'seamcarving.jar',
                                  'media/'+str(request.session.session_key)+'/'+str(request.session.session_key),
-                                 str(rows), str(cols), name])
+                                 str(rows), str(cols), request.session['name']])
 
             return render(request, 'Carver/index.html', {'convertform': convertform, 'uploadform': uploadform,
                                                          'uploaded_file_url': request.session['uploaded_file_url'], 'rows': rows,
