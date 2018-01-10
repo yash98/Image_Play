@@ -19,7 +19,7 @@ def index(request):
         try:
             im = Image.open("media/"+str(request.session.session_key)+"/"+str(request.session.session_key))
             request.session['reso'] = im.size
-        except FileNotFoundError:
+        except (FileNotFoundError, OSError):
             im = None
             request.session['reso'] = (0,0)
 
@@ -34,7 +34,14 @@ def index(request):
         fs = FileSystemStorage(location="media/"+str(request.session.session_key))
         filename = fs.save(str(request.session.session_key), myfile)
         # uploaded_file_url = fs.url(filename)
-        im = Image.open("media/"+str(request.session.session_key)+"/"+str(request.session.session_key))
+        try:
+            im = Image.open("media/"+str(request.session.session_key)+"/"+str(request.session.session_key))
+        except OSError:
+            return render(request, 'Carver/index.html', {'uploadform': uploadform, 'convertform': convertform,
+                                    'uploaded': request.session['uploaded'],
+                                    'reso': request.session['reso'],
+                                    'ImageReady': request.session['ImageReady']})
+
         request.session['reso'] = im.size
         request.session['uploaded_file_url'] = "media/"+str(request.session.session_key)+"/"+str(request.session.session_key)
         request.session['uploaded'] = True
