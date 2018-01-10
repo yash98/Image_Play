@@ -12,5 +12,6 @@
 
 ### Description:
 
-This is a content-aware image resizing web app where the image is reduced in size. Unlike standard content-agnostic resizing techniques (e.g. cropping and scaling), the most interesting features (aspect ratio, set of objects present, etc.) of the image are preserved. The image is reduced to the desired size entered by user without distortion for display.  
+This is a content-aware image resizing web app. It reduces the resolution of the image without affecting the content which is most noticable. Unlike other standard content-agnostic resizing techniques (e.g. cropping and scaling), the aspect ratio of the most interesting objects of the image does not change. 
 
+It apply some simple shortest path algorithms and convert the whole picture into a graph and then determines a path from top to bottom (if a coloumn is being removed) which sum upto to minimum rgb value change and then remove the complete row.
