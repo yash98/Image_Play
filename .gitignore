@@ -124,7 +124,6 @@ tests/report/
 #Custom
 db.sqlite3
 .idea/
-migrations/
 .vscode/
 .media/
 venv
