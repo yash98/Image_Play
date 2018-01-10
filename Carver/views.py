@@ -17,11 +17,6 @@ import subprocess, os
 
 
 def index(request):
-    rows = 0
-    cols = 0
-    myfile=None
-    name = None
-    uploaded_file_url = None
     request.session.save()
     uploadform = ImageUpload()
     convertform = ImageConvert()
@@ -29,30 +24,35 @@ def index(request):
     if 'uploaded' not in request.session:
         request.session['uploaded'] = False
 
+    if 'name' not in request.session:
+        request.session['name'] = 'output'
+
     if 'upload' in request.POST and request.FILES:
         myfile = request.FILES['image']
-        name = myfile.name
+        request.session['name'] = myfile.name
         subprocess.call(['rm', '-rf', "media/"+str(request.session.session_key)+"/"])
         fs = FileSystemStorage(location="media/"+str(request.session.session_key))
         filename = fs.save(str(request.session.session_key), myfile)
         # uploaded_file_url = fs.url(filename)
-        uploaded_file_url = "media/"+str(request.session.session_key)+"/"+str(request.session.session_key)
+        request.session['uploaded_file_url'] = "media/"+str(request.session.session_key)+"/"+str(request.session.session_key)
         request.session['uploaded'] = True
-        print(str(request.session.session_key))
-        return render(request, 'Carver/index.html', {'uploadform': uploadform, 'uploaded_file_url': uploaded_file_url,
+        return render(request, 'Carver/index.html', {'uploadform': uploadform,
+                                                     'uploaded_file_url': request.session['uploaded_file_url'],
                                                      'convertform': convertform, 'uploaded': request.session['uploaded']})
 
     if request.session['uploaded']:
         if 'convert' in request.POST:
+            cols = request.POST.get('cols')
+            rows = request.POST.get('rows')
+            name = request.session['name']
             convertform = ImageConvert(request.POST)
             if convertform.is_valid():
                 subprocess.call(['java','-jar', 'SeamCarving.jar',
                                  'media/'+str(request.session.session_key)+'/'+str(request.session.session_key),
                                  str(rows), str(cols), name])
-                print('media/'+str(request.session.session_key)+'/'+str(request.session.session_key))
 
             return render(request, 'Carver/index.html', {'convertform': convertform, 'uploadform': uploadform,
-                                                         'uploaded_file_url': uploaded_file_url, 'rows': rows,
+                                                         'uploaded_file_url': request.session['uploaded_file_url'], 'rows': rows,
                                                          'cols': cols, 'uploaded': request.session['uploaded']})
 
     return render(request, 'Carver/index.html', {'uploadform': uploadform, 'convertform': convertform,
