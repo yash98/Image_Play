@@ -13,7 +13,7 @@
             <img src="{{ uploaded_file_url }}">
             <p>cols,rows:{{ reso }}</p>
             {% if ImageReady %}
-                <a href="{{ ImageReady }}"><img src="{{ ImageReady }}"></a>
+                <a href="{{ ImageReady }}"><img src="{{ ImageReady }}" href="{{ ImageReady }}"></a>
             {% endif %}
         </div>
         <form method="post" enctype = "multipart/form-data">

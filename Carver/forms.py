@@ -6,5 +6,5 @@ class ImageUpload(forms.Form):
 
 
 class ImageConvert(forms.Form):
-    rows = forms.IntegerField()
     cols = forms.IntegerField()
+    rows = forms.IntegerField()

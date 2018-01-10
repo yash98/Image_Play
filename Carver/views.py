@@ -45,16 +45,16 @@ def index(request):
             if convertform.is_valid():
                 subprocess.call(['java','-jar', 'seamcarving.jar',
                                  'media/'+str(request.session.session_key)+'/'+str(request.session.session_key),
-                                 str(rows), str(cols), str(request.session.session_key), request.session['name']+'.jpg'])
+                                 str(rows), str(cols), str(request.session.session_key), request.session['name']])
                 request.session['ImageReady'] = 'media/'+str(request.session.session_key)+'/'+request.session['name']
             return render(request, 'Carver/index.html', {'convertform': convertform, 'uploadform': uploadform,
                                                          'uploaded_file_url': request.session['uploaded_file_url'], 'rows': rows,
                                                          'cols': cols, 'uploaded': request.session['uploaded'],
                                                          'reso': request.session['reso'],
-                                                         'ImageReady': request.session['ImageReady']+'.jpg'})
+                                                         'ImageReady': request.session['ImageReady']})
 
     return render(request, 'Carver/index.html', {'uploadform': uploadform, 'convertform': convertform,
                                                  'uploaded': request.session['uploaded'],
                                                  'reso': request.session['reso'],
-                                                 'ImageReady': request.session['ImageReady']+'.jpg'})
+                                                 'ImageReady': request.session['ImageReady']})
 
