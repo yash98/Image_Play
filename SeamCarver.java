@@ -207,7 +207,7 @@ public class SeamCarver {
         //StdOut.println("Resizing time: " + sw.elapsedTime() + " seconds.");
         //inputImg.show();
         //outputImg.show();
-        outputImg.save("changedPic.jpg");
+        outputImg.save(args[4] + ".jpg");
     }
 
 }

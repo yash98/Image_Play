@@ -4,26 +4,21 @@
 
 {% block content %}
     <form method="post" enctype="multipart/form-data">
-            {{ form }}
-            {% csrf_token %}
-        <input type="file" name="myfile">Select the image<br>
-        Enter number of rows:<br>
-        <input type="number" name="Row_pixels"><br>
-        Enter number of cols:<br>
-        <input type="number" name = "Col_pixels"><br>
-        <button type="submit">Upload</button>
+        {{ uploadform.as_p }}
+        {% csrf_token %}
+        <button type="submit" name = "upload">Upload</button>
     </form>
-    {% if uploaded_file_url %}
-        <p><a href="{{ uploaded_file_url }}">File uploaded</a></p>
-        <p>Rows={{ rows }} and Cols = {{ cols }}</p>
+    {% if uploaded %}
+        <p><img src="{{ uploaded_file_url }}"></p>
         <form method="post" enctype = "multipart/form-data">
-            {{ form }}
+            {{ convertform.as_table }}
             {% csrf_token %}
-            <button type="Submit">Convert</button>
+{#            Enter number of rows:<br>#}
+{#            <input type="number" name="Row_pixels"><br>#}
+{#            Enter number of cols:<br>#}
+{#            <input type="number" name = "Col_pixels"><br>#}
+            <button type="Submit" name="convert">Convert</button>
         </form>
-    {% endif %}
-    {% if converting %}
-        <p>Converting</p>
     {% endif %}
 
 {% endblock %}

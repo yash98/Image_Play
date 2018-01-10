@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, HttpResponseRedirect
 from django.conf  import  settings
 from django.core.files.storage import FileSystemStorage
-from .forms import ImageUpload
+from .forms import ImageUpload, ImageConvert
 import subprocess, os
 
 # def index2(request):
@@ -15,39 +15,48 @@ import subprocess, os
 #         form = UploadForm()
 #     return render(request, 'Carver/index.html')
 
+
 def index(request):
     rows = 0
     cols = 0
     myfile=None
     name = None
     uploaded_file_url = None
-    if request.method == 'POST' and request.FILES:
-        myfile = request.FILES['myfile']
-        rows = request.POST['Row_pixels']
-        cols = request.POST['Col_pixels']
+    request.session.save()
+    uploadform = ImageUpload()
+    convertform = ImageConvert()
+
+    if 'uploaded' not in request.session:
+        request.session['uploaded'] = False
+
+    if 'upload' in request.POST and request.FILES:
+        myfile = request.FILES['image']
         name = myfile.name
+        subprocess.call(['rm', '-rf', "media/"+str(request.session.session_key)+"/"])
         fs = FileSystemStorage(location="media/"+str(request.session.session_key))
-        filename = fs.save(str(request.session.session_key), myfile)
-        uploaded_file_url = fs.url(filename)
+        # filename = fs.save(str(request.session.session_key), myfile)
+        # uploaded_file_url = fs.url(filename)
+        uploaded_file_url = "media/"+str(request.session.session_key)+"/"+str(request.session.session_key)
+        request.session['uploaded'] = True
+        print(str(request.session.session_key))
+        return render(request, 'Carver/index.html', {'uploadform': uploadform, 'uploaded_file_url': uploaded_file_url,
+                                                     'uploaded': request.session['uploaded']})
 
+    if request.session['uploaded']:
+        if 'convert' in request.POST:
+            convertform = ImageConvert(request.POST)
+            if convertform.is_valid():
+                subprocess.call(['java','-jar', 'SeamCarving.jar',
+                                 'media/'+str(request.session.session_key)+'/'+str(request.session.session_key),
+                                 str(rows), str(cols), name])
+                print('media/'+str(request.session.session_key)+'/'+str(request.session.session_key))
 
-        return render(request, 'Carver/index.html', {'uploaded_file_url':uploaded_file_url,
-                                                     'rows':rows,'cols':cols})
-    if request.method == 'POST':
+            return render(request, 'Carver/index.html', {'convertform': convertform, 'uploadform': uploadform,
+                                                         'uploaded_file_url': uploaded_file_url, 'rows': rows,
+                                                         'cols': cols, 'uploaded': request.session['uploaded']})
 
-        converting = True
-        # subprocess.call(["pwd"])
-        # subprocess.call(["ls"])
-        #subprocess.call(['javac', 'Picture.java'])
-        #os.system("javac SeamCarver.java")
-        subprocess.call(['java','-jar','SeamCarving.jar','media/'+str(request.session.session_key)+'/'+str(request.session.session_key), str(rows), str(cols),'output.jpg'])
-        # subprocess.call(['javac','SeamCarver.java'])
-        # subprocess.call(['java', 'SeamCarver', '/media'+str(request.session.session_key)+'/'+str(request.session.session_key), str(rows), str(cols)])
-        print('../media/'+str(request.session.session_key)+'/'+str(request.session.session_key))
-        return render(request, 'Carver/index.html', {'uploaded_file_url':uploaded_file_url,
-                                                     'rows':rows,'cols':cols,
-                                                     'converting':converting})
-    return render(request, 'Carver/index.html')
+    return render(request, 'Carver/index.html', {'uploadform': uploadform, 'convertform': convertform,
+                                                 'uploaded': request.session['uploaded']})
 
 # def index(request):
 #     if request.method=="POST" and request.FILES['myfile']:
