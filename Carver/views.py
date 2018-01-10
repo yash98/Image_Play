@@ -13,9 +13,12 @@ def index(request):
 
     if 'uploaded' not in request.session:
         request.session['uploaded'] = False
+        request.session['reso'] = False
+        request.session['ImageReady'] = False
     else:
-        im = Image.open("media/"+str(request.session.session_key)+"/"+str(request.session.session_key))
-        request.session['reso'] = im.size
+        if request.session['uploaded']!=False:
+            im = Image.open("media/"+str(request.session.session_key)+"/"+str(request.session.session_key))
+            request.session['reso'] = im.size
 
     if 'name' not in request.session:
         request.session['name'] = 'output'
