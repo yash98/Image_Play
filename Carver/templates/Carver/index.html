@@ -6,12 +6,12 @@
     <form method="post" enctype="multipart/form-data">
         {{ uploadform.as_p }}
         {% csrf_token %}
-        <button type="submit" name = "upload">Upload</button>
+        <button type="submit" name = "upload" class="file btn btn-lg btn-primary">Upload</button>
     </form>
     {% if uploaded %}
         <div>
             <img src="{{ uploaded_file_url }}">
-            <p>cols,rows:{{ reso }}</p>
+            <p style="font-size: 20px;"><b>cols, rows : {{ reso }}</b></p>
             {% if ImageReady %}
                 <a href="{{ ImageReady }}"><img src="{{ ImageReady }}"></a>
             {% endif %}
@@ -19,7 +19,7 @@
         <form method="post" enctype = "multipart/form-data">
             {{ convertform.as_p }}
             {% csrf_token %}
-            <button type="Submit" name="convert">Convert</button>
+            <button class="file btn btn-lg btn-primary" type="Submit" name="convert">Convert</button>
         </form>
     {% endif %}
 

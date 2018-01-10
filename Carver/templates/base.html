@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %}</title>
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
-
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700|Roboto:300,400' rel='stylesheet' type='text/css'>
 	
 	<!-- Bootstrap  -->
@@ -12,7 +10,7 @@
 	<link rel="stylesheet" href="static/component.css">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 	<style>
-		head,body{
+		head, body{
 			font-family: 'Montserrat';
 			background-image: url('static/backg.jpeg');
     		background-size: 100%;
@@ -40,8 +38,8 @@
 </head>
 <body>
 	<center><h1 style="font-size:55px;">Image Play</h1></center>
-	<center style="margin-top: 4%;>
-	    <div id="content">
+	<center style="margin-top: 4%;">
+	    <div id= "content">
 	        {% block content %}
 	        {% endblock %}
 	    </div>
