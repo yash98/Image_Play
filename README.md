@@ -11,7 +11,7 @@
 
 ### Description:
 
-This is a content-aware image resizing web app where the image is reduced in size keeping the most interesting features like aspect ratio, set of objects present etc. are preserved (Unlike other standard cropping and scaling techniques) intact in the image. The image is reduced to the desired size entered by user without distortion for display.
+This is a content-aware image resizing web app where the image is reduced in size. Unlike standard content-agnostic resizing techniques (e.g. cropping and scaling), the most interesting features (aspect ratio, set of objects present, etc.) of the image are preserved. The image is reduced to the desired size entered by user without distortion for display.  
 
 
 #### Instructions:
