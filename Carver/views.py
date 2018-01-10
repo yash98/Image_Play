@@ -16,9 +16,13 @@ def index(request):
         request.session['reso'] = False
         request.session['ImageReady'] = False
     else:
-        if request.session['uploaded']!=False:
+        try:
             im = Image.open("media/"+str(request.session.session_key)+"/"+str(request.session.session_key))
             request.session['reso'] = im.size
+        except FileNotFoundError:
+            im = None
+            request.session['reso'] = (0,0)
+
 
     if 'name' not in request.session:
         request.session['name'] = 'output'
